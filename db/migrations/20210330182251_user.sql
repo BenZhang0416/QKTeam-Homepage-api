@@ -1,10 +1,11 @@
+
 -- +goose Up
 -- SQL in section 'Up' is executed when this migration is applied
-create table example
+create table user
 (
-    id int not null auto_increment,
-    name varchar(255) not null,
-    alias varchar(255) not null,
+    id int not null  auto_increment,
+    roleid int not null,
+    email varchar(255) not null, 
 
     created_at datetime,
     updated_at datetime,
@@ -12,9 +13,7 @@ create table example
 
     primary key(id)
 );
--- initialize data [optional]
-insert into role(text) values ('text');
 
 -- +goose Down
 -- SQL section 'Down' is executed when this migration is rolled back
-drop table role;
+drop table user;

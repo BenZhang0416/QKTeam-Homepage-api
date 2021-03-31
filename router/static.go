@@ -1,10 +1,10 @@
-package Route
+package router
 
 import (
-	"github.com/qiankaihua/ginDemo/Boot/Http"
+	"api/boot/http"
 )
 
 // Change the relativePath according to your demand
 func AddStaticRoute() {
-	Http.Router.Static("/static", "./public")
+	http.Router.Static("/static", "./public")
 }

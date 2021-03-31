@@ -6,7 +6,7 @@ import (
 	mw "api/boot/middleware"
 	"api/boot/orm"
 	_ "api/config"
-	_ "api/router"
+	"api/router"
 )
 
 func _init() {
@@ -14,6 +14,7 @@ func _init() {
 	logger.InitLog()
 	orm.InitOrm()
 	http.InitHttp()
+	router.Init()
 }
 
 func _end() {
