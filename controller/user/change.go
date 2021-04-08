@@ -36,13 +36,13 @@ func Change(c *gin.Context)  {
 		c.AbortWithStatus(401)
 		return
 	}
-	user := _user.(model.User)
+	user := _user.(model.user)
 	db := orm.GetDB()
 	var data ChangeValidate
 	if err := c.ShouldBindJSON(&data); err != nil {
 		panic(err)
 	}
-	if err := db.Model(&user).Updates(model.User{
+	if err := db.Model(&user).Updates(model.user{
 		Username: data.Username,
 		Avatar: data.Avatar,
 		Introduction: data.Introduction,
