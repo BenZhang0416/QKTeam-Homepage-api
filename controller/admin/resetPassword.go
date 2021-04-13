@@ -1,4 +1,4 @@
-package user
+package admin
 
 import (
 	"api/boot/orm"
@@ -8,11 +8,10 @@ import (
 )
 
 /**
- * @api {PUT} user/security 修改密码-ResetPassword
+ * @api {PUT} user/security 管理员重置密码-ResetPassword
  * @apiGroup User
  * @apiName ResetPassword
  * @apiPermission User/Admin
- * @apiParam {string} password_old 旧密码
  * @apiParam {string} password_new 新密码
  * @apiParamExample {json} Request-Example:
  * {
@@ -22,26 +21,26 @@ import (
  */
 
 type ResetPasswordValidate struct {
-	PasswordOld string `json:"password_old" binding:"required,len=40"`
 	PasswordNew string `json:"password_new" binding:"required,len=40"`
 }
 
-func ResetPassword(c *gin.Context)  {
+func ResetPassword(c *gin.Context) {
 	_user, _ := c.Get("user")
 	if _user == nil {
 		c.AbortWithStatus(401)
 		return
 	}
-	user := _user.(model.user)
+	user := _user.(model.User)
 	var data ResetPasswordValidate
-	if err :=c.ShouldBindJSON(&data); err != nil {
-		c.JSON(422, gin.H{"message":"格式不正确哦"})
+	if err := c.ShouldBindJSON(&data); err != nil {
+		c.JSON(422, gin.H{"message": "格式不正确"})
 		return
 	}
 	db := orm.GetDB()
 	if !controller.Sha256Check(user.Password, data.PasswordOld) {
-		c.JSON(403, gin.H{"message":"密码错误"})
+		c.JSON(403, gin.H{"message": "密码错误"})
 		return
 	}
+	//重置新密码
 	db.Model(&user).UpdateColumn("Password", controller.Sha256Get(data.PasswordNew))
 }

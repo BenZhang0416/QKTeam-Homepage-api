@@ -2,13 +2,9 @@ package router
 
 import (
 	"api/boot/http"
+	"api/controller/applicationForm"
 	"api/controller/auth"
-	"api/controller/user"
-	"api/controller/version"
-
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/qiankaihua/ginDemo/Boot/Http"
 )
 
 func Init() {
@@ -19,13 +15,16 @@ func Init() {
 // Add your route here
 func AddRouter() {
 	http.Router.GET("/", func(c *gin.Context) {
-		c.JSON(200 ,gin.H{
-			"version":"v1.0",
+		c.JSON(200, gin.H{
+			"version": "v1.0",
 		})
 	})
-	Auth := Http.Router.Group("/Auth")
+	aFormRouter := http.Router.Group("/aFormRouter")
 	{
-		Auth.POST("login", auth.login)
+		aFormRouter.POST("Commit", applicationForm.Commit)
+	}
+	Auth := http.Router.Group("/Auth")
+	{
+		Auth.POST("login", auth.Login)
 	}
 }
-
